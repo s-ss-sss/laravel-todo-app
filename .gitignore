@@ -1,0 +1,8 @@
+# Environment
+.env
+
+# IDE
+.idea/
+
+# Mac
+.DS_Store
