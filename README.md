@@ -58,7 +58,8 @@ todo/
 ├── docker/
 │   ├── apache/         # Apache設定
 │   ├── php/            # PHP設定
-│   └── mysql/          # MySQL設定
+│   ├── mysql/          # MySQL設定
+│   └── Dockerfile      # Dockerfile設定
 ├── src/
 │   ├── app/            # アプリケーションロジック
 │   ├── database/       # マイグレーション・Seeder
@@ -70,6 +71,41 @@ todo/
 ├── .env.example        # 環境変数サンプル
 ├── .gitignore
 └── README.md
+```
+## Setup
+1. Docker用環境変数を作成
+```bash
+cp .env.example .env
+```
+
+2. Laravel用環境変数を作成
+```bash
+cp src/.env.example src/.env
+```
+
+3. Dockerイメージをビルド
+```bash
+docker compose build app
+```
+
+4. Composerの依存パッケージをインストール
+```bash
+docker compose run --rm --no-deps app composer install
+```
+
+5. コンテナを起動
+```bash
+docker compose up -d
+```
+
+6. Laravelのアプリケーションキーを生成
+```bash
+docker compose exec app php artisan key:generate
+```
+
+7. マイグレーションを実行
+```bash
+docker compose exec app php artisan migrate
 ```
 
 ## Database
