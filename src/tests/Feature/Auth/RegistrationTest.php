@@ -12,7 +12,7 @@ class RegistrationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 登録画面表示テスト
+     * 未ログインユーザーが登録画面を表示できることを確認
      */
     public function test_registration_screen_can_be_rendered(): void
     {
@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * 正常ユーザー登録テスト
+     * 正しい入力でユーザー登録できログイン状態になることを確認
      */
     public function test_new_users_can_register(): void
     {
@@ -43,7 +43,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        // パスワードのハッシュ化確認
+        // 保存されたハッシュが入力パスワードと一致することを確認
         $user = User::where('email', 'test@example.com')->firstOrFail();
 
         $this->assertTrue(
@@ -52,7 +52,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * パスワード確認不一致テスト
+     * パスワード確認が一致しない場合は登録できないことを確認
      */
     public function test_registration_fails_when_password_confirmation_does_not_match(): void
     {
@@ -73,7 +73,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * 重複メールテスト
+     * 登録済みメールアドレスではユーザー登録できないことを確認
      */
     public function test_registration_fails_when_email_is_already_registered(): void
     {

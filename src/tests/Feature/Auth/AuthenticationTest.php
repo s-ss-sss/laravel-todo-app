@@ -11,7 +11,7 @@ class AuthenticationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ログイン画面表示テスト
+     * 未ログインユーザーがログイン画面を表示できることを確認
      */
     public function test_login_screen_can_be_rendered(): void
     {
@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * 正常ログインテスト
+     * 正しい認証情報でログインできることを確認
      */
     public function test_users_can_authenticate(): void
     {
@@ -39,7 +39,7 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * パスワード確認不一致テスト
+     * 不正なパスワードでログインできないことを確認
      */
     public function test_users_cannot_authenticate_with_invalid_password(): void
     {
@@ -56,7 +56,7 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * ログアウトテスト
+     * ログインユーザーがログアウトできることを確認
      */
     public function test_users_can_logout(): void
     {
@@ -72,7 +72,7 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * dashboard未ログインテスト
+     * 未ログインユーザーはダッシュボードからログイン画面へ転送されることを確認
      */
     public function test_guests_are_redirected_from_dashboard_to_login(): void
     {
@@ -82,7 +82,7 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * dashboardログインテスト
+     * ログインユーザーがダッシュボードを表示できることを確認
      */
     public function test_authenticated_users_can_view_dashboard(): void
     {
