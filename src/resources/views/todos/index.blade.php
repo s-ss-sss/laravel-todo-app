@@ -18,7 +18,11 @@
     @else
         <ul>
             @foreach ($todos as $todo)
-                <li>{{ $todo->title }}</li>
+                <li>
+                    <a href="{{ route('todos.show', $todo) }}">
+                        {{ $todo->title }}
+                    </a>
+                </li>
             @endforeach
         </ul>
     @endif

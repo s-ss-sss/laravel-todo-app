@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoRequest;
+use App\Models\Todo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class TodoController extends Controller
@@ -38,5 +40,15 @@ class TodoController extends Controller
 
         return redirect()
             ->route('todos.index');
+    }
+
+    /**
+     * Todo詳細画面を表示
+     */
+    public function show(Todo $todo): View
+    {
+        Gate::authorize('view', $todo);
+
+        return view('todos.show', compact('todo'));
     }
 }
