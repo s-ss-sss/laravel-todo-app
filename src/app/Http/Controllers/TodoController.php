@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoRequest;
+use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,5 +51,28 @@ class TodoController extends Controller
         Gate::authorize('view', $todo);
 
         return view('todos.show', compact('todo'));
+    }
+
+    /**
+     * Todo編集画面を表示
+     */
+    public function edit(Todo $todo): View
+    {
+        Gate::authorize('update', $todo);
+
+        return view('todos.edit', compact('todo'));
+    }
+
+    /**
+     * Todoを更新
+     */
+    public function update(
+        UpdateTodoRequest $request,
+        Todo $todo
+    ): RedirectResponse {
+        $todo->update($request->validated());
+
+        return redirect()
+            ->route('todos.show', $todo);
     }
 }

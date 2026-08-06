@@ -26,6 +26,10 @@
     </dl>
 
     <p>
+        <a href="{{ route('todos.edit', $todo) }}">このTodoを編集</a>
+    </p>
+
+    <p>
         <a href="{{ route('todos.index') }}">Todo一覧へ戻る</a>
     </p>
 </body>
