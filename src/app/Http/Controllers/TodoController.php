@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTodoRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -15,5 +17,26 @@ class TodoController extends Controller
         $todos = $request->user()->todos()->get();
 
         return view('todos.index', compact('todos'));
+    }
+
+    /**
+     * Todo登録画面を表示
+     */
+    public function create(): View
+    {
+        return view('todos.create');
+    }
+
+    /**
+     * Todoを登録
+     */
+    public function store(StoreTodoRequest $request): RedirectResponse
+    {
+        $request->user()
+            ->todos()
+            ->create($request->validated());
+
+        return redirect()
+            ->route('todos.index');
     }
 }
