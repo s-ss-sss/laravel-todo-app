@@ -9,6 +9,10 @@
 <body>
     <h1>Todo一覧</h1>
 
+    <p>
+        <a href="{{ route('todos.create') }}">新しいTodoを登録</a>
+    </p>
+
     @if ($todos->isEmpty())
         <p>Todoはまだありません。</p>
     @else
