@@ -22,3 +22,7 @@ Route::get('/todos/create', [TodoController::class, 'create'])
 Route::post('/todos', [TodoController::class, 'store'])
     ->middleware('auth')
     ->name('todos.store');
+
+Route::get('/todos/{todo}', [TodoController::class, 'show'])
+    ->middleware('auth')
+    ->name('todos.show');
