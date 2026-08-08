@@ -29,6 +29,17 @@
         <a href="{{ route('todos.edit', $todo) }}">このTodoを編集</a>
     </p>
 
+    <form
+        method="POST"
+        action="{{ route('todos.destroy', $todo) }}"
+        onsubmit="return confirm('このTodoを削除しますか？')"
+    >
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">このTodoを削除</button>
+    </form>
+
     <p>
         <a href="{{ route('todos.index') }}">Todo一覧へ戻る</a>
     </p>
