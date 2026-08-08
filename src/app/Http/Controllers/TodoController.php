@@ -75,4 +75,17 @@ class TodoController extends Controller
         return redirect()
             ->route('todos.show', $todo);
     }
+
+    /**
+     * Todoを論理削除
+     */
+    public function destroy(Todo $todo): RedirectResponse
+    {
+        Gate::authorize('delete', $todo);
+
+        $todo->delete();
+
+        return redirect()
+            ->route('todos.index');
+    }
 }

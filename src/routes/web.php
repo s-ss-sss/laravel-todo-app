@@ -34,3 +34,7 @@ Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])
 Route::put('/todos/{todo}', [TodoController::class, 'update'])
     ->middleware('auth')
     ->name('todos.update');
+
+Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('todos.destroy');
