@@ -35,6 +35,10 @@ Route::put('/todos/{todo}', [TodoController::class, 'update'])
     ->middleware('auth')
     ->name('todos.update');
 
+Route::patch('/todos/{todo}/completion', [TodoController::class, 'toggleCompletion'])
+    ->middleware('auth')
+    ->name('todos.toggle-completion');
+
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
     ->middleware('auth')
     ->name('todos.destroy');

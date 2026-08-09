@@ -25,6 +25,18 @@
         <dd>{{ $todo->is_completed ? '完了' : '未完了' }}</dd>
     </dl>
 
+    <form
+        method="POST"
+        action="{{ route('todos.toggle-completion', $todo) }}"
+    >
+        @csrf
+        @method('PATCH')
+
+        <button type="submit">
+            {{ $todo->is_completed ? '未完了に戻す' : '完了にする' }}
+        </button>
+    </form>
+
     <p>
         <a href="{{ route('todos.edit', $todo) }}">このTodoを編集</a>
     </p>

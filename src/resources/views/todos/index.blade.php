@@ -22,6 +22,10 @@
                     <a href="{{ route('todos.show', $todo) }}">
                         {{ $todo->title }}
                     </a>
+
+                    <span>
+                        {{ $todo->is_completed ? '完了' : '未完了' }}
+                    </span>
                 </li>
             @endforeach
         </ul>
