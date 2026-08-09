@@ -88,4 +88,18 @@ class TodoController extends Controller
         return redirect()
             ->route('todos.index');
     }
+
+    /**
+     * Todoの完了状態を切り替え
+     */
+    public function toggleCompletion(Todo $todo): RedirectResponse
+    {
+        Gate::authorize('update', $todo);
+
+        $todo->is_completed = ! $todo->is_completed;
+        $todo->save();
+
+        return redirect()
+            ->route('todos.show', $todo);
+    }
 }
