@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchTodoRequest;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -15,9 +15,34 @@ class TodoController extends Controller
     /**
      * ログインユーザーのTodo一覧を表示
      */
-    public function index(Request $request): View
+    public function index(SearchTodoRequest $request): View
     {
-        $todos = $request->user()->todos()->get();
+        $filters = $request->validated();
+        $query = $request->user()->todos();
+
+        if (! empty($filters['keyword'])) {
+            $keyword = $filters['keyword'];
+
+            $query->where(function ($query) use ($keyword) {
+                $query
+                    ->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
+
+        if (($filters['status'] ?? null) === 'completed') {
+            $query->where('is_completed', true);
+        }
+
+        if (($filters['status'] ?? null) === 'incomplete') {
+            $query->where('is_completed', false);
+        }
+
+        if (! empty($filters['due_date'])) {
+            $query->whereDate('due_date', $filters['due_date']);
+        }
+
+        $todos = $query->get();
 
         return view('todos.index', compact('todos'));
     }
