@@ -98,6 +98,32 @@
                     <span>
                         {{ $todo->is_completed ? '完了' : '未完了' }}
                     </span>
+
+                    @if (
+                        ! request()->filled('keyword')
+                        && ! request()->filled('status')
+                        && ! request()->filled('due_date')
+                    )
+                        <form
+                            method="POST"
+                            action="{{ route('todos.move-up', $todo) }}"
+                        >
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit">上へ</button>
+                        </form>
+
+                        <form
+                            method="POST"
+                            action="{{ route('todos.move-down', $todo) }}"
+                        >
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit">下へ</button>
+                        </form>
+                    @endif
                 </li>
             @endforeach
         </ul>
