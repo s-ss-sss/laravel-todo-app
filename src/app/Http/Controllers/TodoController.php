@@ -7,6 +7,8 @@ use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -42,7 +44,10 @@ class TodoController extends Controller
             $query->whereDate('due_date', $filters['due_date']);
         }
 
-        $todos = $query->get();
+        $todos = $query
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
 
         return view('todos.index', compact('todos'));
     }
@@ -60,9 +65,15 @@ class TodoController extends Controller
      */
     public function store(StoreTodoRequest $request): RedirectResponse
     {
-        $request->user()
+        $todo = $request->user()
             ->todos()
-            ->create($request->validated());
+            ->make($request->validated());
+
+        $todo->sort_order = (
+            (int) $request->user()->todos()->max('sort_order')
+        ) + 1;
+
+        $todo->save();
 
         return redirect()
             ->route('todos.index');
@@ -126,5 +137,73 @@ class TodoController extends Controller
 
         return redirect()
             ->route('todos.show', $todo);
+    }
+
+    /**
+     * Todoを1つ上へ移動
+     */
+    public function moveUp(
+        Request $request,
+        Todo $todo
+    ): RedirectResponse {
+        Gate::authorize('update', $todo);
+
+        $previousTodo = $request->user()
+            ->todos()
+            ->where('sort_order', '<', $todo->sort_order)
+            ->orderByDesc('sort_order')
+            ->first();
+
+        if ($previousTodo === null) {
+            return redirect()
+                ->route('todos.index');
+        }
+
+        DB::transaction(function () use ($todo, $previousTodo) {
+            $currentOrder = $todo->sort_order;
+
+            $todo->sort_order = $previousTodo->sort_order;
+            $todo->save();
+
+            $previousTodo->sort_order = $currentOrder;
+            $previousTodo->save();
+        });
+
+        return redirect()
+            ->route('todos.index');
+    }
+
+    /**
+     * Todoを1つ下へ移動
+     */
+    public function moveDown(
+        Request $request,
+        Todo $todo
+    ): RedirectResponse {
+        Gate::authorize('update', $todo);
+
+        $nextTodo = $request->user()
+            ->todos()
+            ->where('sort_order', '>', $todo->sort_order)
+            ->orderBy('sort_order')
+            ->first();
+
+        if ($nextTodo === null) {
+            return redirect()
+                ->route('todos.index');
+        }
+
+        DB::transaction(function () use ($todo, $nextTodo) {
+            $currentOrder = $todo->sort_order;
+
+            $todo->sort_order = $nextTodo->sort_order;
+            $todo->save();
+
+            $nextTodo->sort_order = $currentOrder;
+            $nextTodo->save();
+        });
+
+        return redirect()
+            ->route('todos.index');
     }
 }
