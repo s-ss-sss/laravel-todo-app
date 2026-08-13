@@ -127,6 +127,8 @@
                 </li>
             @endforeach
         </ul>
+
+        {{ $todos->links() }}
     @endif
 </body>
 </html>

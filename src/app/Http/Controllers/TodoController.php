@@ -47,7 +47,8 @@ class TodoController extends Controller
         $todos = $query
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return view('todos.index', compact('todos'));
     }
