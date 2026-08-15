@@ -1,134 +1,210 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>Todo一覧</title>
-</head>
-<body>
-    <h1>Todo一覧</h1>
+@section('title', 'Todo一覧')
 
-    <p>
-        <a href="{{ route('todos.create') }}">新しいTodoを登録</a>
-    </p>
+@section('content')
+    <div class="p-todo-list">
+        <div class="p-todo-list__header">
+            <div>
+                <p class="p-todo-list__eyebrow">
+                    TASKS
+                </p>
 
-    <form method="GET" action="{{ route('todos.index') }}">
-        <div>
-            <label for="keyword">キーワード</label>
+                <h1 class="p-todo-list__title">
+                    Todo一覧
+                </h1>
+            </div>
 
-            <input
-                id="keyword"
-                name="keyword"
-                type="search"
-                value="{{ request('keyword') }}"
+            <a
+                class="c-button c-button--primary"
+                href="{{ route('todos.create') }}"
             >
-
-            @error('keyword')
-                <p>{{ $message }}</p>
-            @enderror
+                新しいTodoを登録
+            </a>
         </div>
 
-        <div>
-            <label for="status">状態</label>
-
-            <select id="status" name="status">
-                <option value="">すべて</option>
-
-                <option
-                    value="completed"
-                    @selected(request('status') === 'completed')
-                >
-                    完了
-                </option>
-
-                <option
-                    value="incomplete"
-                    @selected(request('status') === 'incomplete')
-                >
-                    未完了
-                </option>
-            </select>
-
-            @error('status')
-                <p>{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label for="due_date">期限日</label>
-
-            <input
-                id="due_date"
-                name="due_date"
-                type="date"
-                value="{{ request('due_date') }}"
+        <div class="c-card c-card--flat p-todo-list__search">
+            <form
+                class="c-form p-todo-search"
+                method="GET"
+                action="{{ route('todos.index') }}"
             >
+                <div class="p-todo-search__fields">
+                    <div class="c-form__group">
+                        <label class="c-form__label" for="keyword">
+                            キーワード
+                        </label>
 
-            @error('due_date')
-                <p>{{ $message }}</p>
-            @enderror
-        </div>
+                        <input
+                            class="c-form__control"
+                            id="keyword"
+                            name="keyword"
+                            type="search"
+                            value="{{ request('keyword') }}"
+                            placeholder="タイトル・説明から検索"
+                        >
 
-        <button type="submit">検索</button>
+                        @error('keyword')
+                            <p class="c-form__error">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-        <a href="{{ route('todos.index') }}">
-            条件をクリア
-        </a>
-    </form>
+                    <div class="c-form__group">
+                        <label class="c-form__label" for="status">
+                            状態
+                        </label>
 
-    @if ($todos->isEmpty())
-        @if (
-            request()->filled('keyword')
-            || request()->filled('status')
-            || request()->filled('due_date')
-        )
-            <p>検索条件に一致するTodoはありません。</p>
-        @else
-            <p>Todoはまだありません。</p>
-        @endif
-    @else
-        <ul>
-            @foreach ($todos as $todo)
-                <li>
-                    <a href="{{ route('todos.show', $todo) }}">
-                        {{ $todo->title }}
+                        <select
+                            class="c-form__control"
+                            id="status"
+                            name="status"
+                        >
+                            <option value="">すべて</option>
+
+                            <option
+                                value="completed"
+                                @selected(request('status') === 'completed')
+                            >
+                                完了
+                            </option>
+
+                            <option
+                                value="incomplete"
+                                @selected(request('status') === 'incomplete')
+                            >
+                                未完了
+                            </option>
+                        </select>
+
+                        @error('status')
+                            <p class="c-form__error">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="c-form__group">
+                        <label class="c-form__label" for="due_date">
+                            期限日
+                        </label>
+
+                        <input
+                            class="c-form__control"
+                            id="due_date"
+                            name="due_date"
+                            type="date"
+                            value="{{ request('due_date') }}"
+                        >
+
+                        @error('due_date')
+                            <p class="c-form__error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="c-form__actions p-todo-search__actions">
+                    <button
+                        class="c-button c-button--primary"
+                        type="submit"
+                    >
+                        検索
+                    </button>
+
+                    <a
+                        class="c-button c-button--secondary"
+                        href="{{ route('todos.index') }}"
+                    >
+                        条件をクリア
                     </a>
+                </div>
+            </form>
+        </div>
 
-                    <span>
-                        {{ $todo->is_completed ? '完了' : '未完了' }}
-                    </span>
+        @if ($todos->isEmpty())
+            @if (
+                request()->filled('keyword')
+                || request()->filled('status')
+                || request()->filled('due_date')
+            )
+                <p class="c-empty-state">
+                    検索条件に一致するTodoはありません。
+                </p>
+            @else
+                <p class="c-empty-state">
+                    Todoはまだありません。
+                </p>
+            @endif
+        @else
+            <ul class="p-todo-list__items">
+                @foreach ($todos as $todo)
+                    <li
+                        class="p-todo-list__item {{ $todo->is_completed ? 'is-completed' : '' }}"
+                    >
+                        <div class="p-todo-list__content">
+                            <div class="p-todo-list__item-header">
+                                <a
+                                    class="p-todo-list__item-title"
+                                    href="{{ route('todos.show', $todo) }}"
+                                >
+                                    {{ $todo->title }}
+                                </a>
 
-                    @if (
-                        ! request()->filled('keyword')
-                        && ! request()->filled('status')
-                        && ! request()->filled('due_date')
-                    )
-                        <form
-                            method="POST"
-                            action="{{ route('todos.move-up', $todo) }}"
-                        >
-                            @csrf
-                            @method('PATCH')
+                                <span
+                                    class="c-status {{ $todo->is_completed ? 'c-status--completed' : 'c-status--incomplete' }}"
+                                >
+                                    {{ $todo->is_completed ? '完了' : '未完了' }}
+                                </span>
+                            </div>
 
-                            <button type="submit">上へ</button>
-                        </form>
+                            <p class="p-todo-list__meta">
+                                期限：{{ $todo->due_date?->format('Y/m/d') ?? '設定なし' }}
+                            </p>
+                        </div>
 
-                        <form
-                            method="POST"
-                            action="{{ route('todos.move-down', $todo) }}"
-                        >
-                            @csrf
-                            @method('PATCH')
+                        @if (
+                            ! request()->filled('keyword')
+                            && ! request()->filled('status')
+                            && ! request()->filled('due_date')
+                        )
+                            <div class="p-todo-list__actions">
+                                <form
+                                    method="POST"
+                                    action="{{ route('todos.move-up', $todo) }}"
+                                >
+                                    @csrf
+                                    @method('PATCH')
 
-                            <button type="submit">下へ</button>
-                        </form>
-                    @endif
-                </li>
-            @endforeach
-        </ul>
+                                    <button
+                                        class="c-button c-button--icon"
+                                        type="submit"
+                                        aria-label="{{ $todo->title }}を上へ移動"
+                                        title="上へ移動"
+                                    >
+                                        ↑
+                                    </button>
+                                </form>
 
-        {{ $todos->links() }}
-    @endif
-</body>
-</html>
+                                <form
+                                    method="POST"
+                                    action="{{ route('todos.move-down', $todo) }}"
+                                >
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        class="c-button c-button--icon"
+                                        type="submit"
+                                        aria-label="{{ $todo->title }}を下へ移動"
+                                        title="下へ移動"
+                                    >
+                                        ↓
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+
+            {{ $todos->links('vendor.pagination.default') }}
+        @endif
+    </div>
+@endsection

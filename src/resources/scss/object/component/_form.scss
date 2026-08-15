@@ -1,0 +1,75 @@
+@use '../../foundation/variables' as v;
+
+.c-form {
+    display: grid;
+    gap: 24px;
+}
+
+.c-form__group {
+    display: grid;
+    gap: 8px;
+}
+
+.c-form__label {
+    color: v.$color-navy-900;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.c-form__control {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 14px;
+    color: v.$color-text;
+    background-color: v.$color-white;
+    border: 1px solid v.$color-border-strong;
+    border-radius: v.$border-radius-small;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &::placeholder {
+        color: v.$color-text-muted;
+    }
+
+    &:focus {
+        border-color: v.$color-blue-500;
+        box-shadow: 0 0 0 3px rgba(v.$color-blue-500, 0.12);
+        outline: none;
+    }
+}
+
+textarea.c-form__control {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.c-form__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+}
+
+.c-form__error {
+    color: v.$color-danger;
+    font-size: 13px;
+}
+
+.c-form__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.c-form__link {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.c-form--narrow {
+    max-width: v.$content-width-narrow;
+}

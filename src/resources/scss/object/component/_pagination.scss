@@ -1,0 +1,50 @@
+@use '../../foundation/variables' as v;
+
+.c-pagination {
+    margin-top: 32px;
+}
+
+.c-pagination__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.c-pagination__link,
+.c-pagination__current,
+.c-pagination__disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-small;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.c-pagination__link {
+    color: v.$color-navy-800;
+    background-color: v.$color-white;
+
+    &:hover {
+        color: v.$color-white;
+        background-color: v.$color-navy-800;
+        border-color: v.$color-navy-800;
+    }
+}
+
+.c-pagination__current {
+    color: v.$color-white;
+    background-color: v.$color-navy-800;
+    border-color: v.$color-navy-800;
+}
+
+.c-pagination__disabled {
+    color: v.$color-text-muted;
+    background-color: v.$color-surface-subtle;
+}

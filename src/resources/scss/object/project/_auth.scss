@@ -1,0 +1,40 @@
+@use '../../foundation/variables' as v;
+
+.p-auth {
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - v.$header-height - 160px);
+}
+
+.p-auth__card {
+    width: min(100%, 480px);
+}
+
+.p-auth__header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.p-auth__eyebrow {
+    margin-bottom: 8px;
+    color: v.$color-blue-500;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.p-auth__title {
+    font-size: 30px;
+}
+
+.p-auth__footer {
+    margin-top: 24px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    text-align: center;
+}
+
+.p-auth__footer-link {
+    margin-left: 6px;
+    font-weight: 700;
+}
