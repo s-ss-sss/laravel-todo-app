@@ -1,0 +1,130 @@
+@use '../../foundation/variables' as v;
+
+.p-todo-list__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.p-todo-list__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-blue-500;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
+.p-todo-list__title {
+    font-size: clamp(32px, 5vw, 48px);
+    letter-spacing: -0.03em;
+}
+
+.p-todo-list__search {
+    margin-bottom: 32px;
+}
+
+.p-todo-search__fields {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(150px, 1fr) minmax(170px, 1fr);
+    gap: 20px;
+}
+
+.p-todo-search__actions > .c-button {
+    width: 140px;
+}
+
+.p-todo-list__items {
+    overflow: hidden;
+    background-color: v.$color-white;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-medium;
+}
+
+.p-todo-list__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 30px;
+    border-bottom: 1px solid v.$color-border;
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    &:hover {
+        background-color: v.$color-surface-subtle;
+    }
+
+    &.is-completed {
+        background-color: rgba(v.$color-success-light, 0.55);
+    }
+}
+
+.p-todo-list__content {
+    min-width: 0;
+}
+
+.p-todo-list__item-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.p-todo-list__item-title {
+    overflow: hidden;
+    color: v.$color-navy-900;
+    font-size: 18px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+        color: v.$color-blue-500;
+    }
+}
+
+.p-todo-list__meta {
+    margin-top: 8px;
+    color: v.$color-text-muted;
+    font-size: 13px;
+}
+
+.p-todo-list__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .p-todo-list__header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .p-todo-search__fields {
+        grid-template-columns: 1fr;
+    }
+
+    .p-todo-search__actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .p-todo-search__actions > .c-button {
+        width: 100%;
+    }
+
+    .p-todo-list__item {
+        grid-template-columns: 1fr;
+        padding: 22px 20px;
+    }
+
+    .p-todo-list__actions {
+        justify-content: flex-end;
+    }
+}

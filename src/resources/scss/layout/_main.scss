@@ -1,0 +1,16 @@
+@use '../foundation/variables' as v;
+
+.l-main {
+    padding: 64px v.$layout-gutter 96px;
+}
+
+.l-main__inner {
+    max-width: v.$content-width;
+    margin: 0 auto;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .l-main {
+        padding: 40px v.$layout-gutter-mobile 64px;
+    }
+}

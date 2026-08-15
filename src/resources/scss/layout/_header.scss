@@ -1,0 +1,100 @@
+@use '../foundation/variables' as v;
+
+.l-header {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+    background-color: v.$color-white;
+    border-bottom: 1px solid v.$color-border;
+}
+
+.l-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: calc(v.$content-width + (v.$layout-gutter * 2));
+    min-height: v.$header-height;
+    margin: 0 auto;
+    padding: 0 v.$layout-gutter;
+}
+
+.l-header__logo {
+    color: v.$color-navy-900;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    line-height: 1;
+
+    &:hover {
+        color: v.$color-blue-500;
+    }
+}
+
+.l-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.l-header__link {
+    position: relative;
+    color: v.$color-text;
+    font-size: 14px;
+    font-weight: 600;
+
+    &::after {
+        position: absolute;
+        right: 0;
+        bottom: -8px;
+        left: 0;
+        height: 2px;
+        background-color: v.$color-blue-500;
+        content: '';
+        opacity: 0;
+        transform: scaleX(0);
+        transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    &:hover,
+    &.is-active {
+        color: v.$color-navy-900;
+    }
+
+    &:hover::after,
+    &.is-active::after {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+.l-header__form {
+    display: flex;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .l-header {
+        position: static;
+    }
+
+    .l-header__inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        padding-right: v.$layout-gutter-mobile;
+        padding-left: v.$layout-gutter-mobile;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .l-header__nav {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 16px 22px;
+    }
+
+    .l-header__form {
+        margin-left: auto;
+    }
+}

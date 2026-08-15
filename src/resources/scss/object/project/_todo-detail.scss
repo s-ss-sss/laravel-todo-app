@@ -1,0 +1,120 @@
+@use '../../foundation/variables' as v;
+
+.p-todo-detail {
+    width: 100%;
+}
+
+.p-todo-detail__header {
+    margin-bottom: 40px;
+}
+
+.p-todo-detail__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-blue-500;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.p-todo-detail__title {
+    font-size: clamp(32px, 5vw, 48px);
+    letter-spacing: -0.03em;
+}
+
+.p-todo-detail__body {
+    width: min(100%, v.$content-width-medium);
+}
+
+.p-todo-detail__list {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+}
+
+.p-todo-detail__term,
+.p-todo-detail__description {
+    padding: 20px 0;
+    border-bottom: 1px solid v.$color-border;
+}
+
+.p-todo-detail__term {
+    color: v.$color-text-muted;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.p-todo-detail__description {
+    color: v.$color-navy-900;
+    overflow-wrap: anywhere;
+}
+
+.p-todo-detail__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.p-todo-detail__actions > form,
+.p-todo-detail__actions > .c-button {
+    width: 160px;
+}
+
+.p-todo-detail__actions > form .c-button {
+    width: 100%;
+}
+
+.p-todo-detail__danger-action {
+    margin-left: auto;
+}
+
+.p-todo-detail__form-actions > .c-button {
+    width: 160px;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .p-todo-detail__list {
+        grid-template-columns: 1fr;
+    }
+
+    .p-todo-detail__term {
+        padding-bottom: 4px;
+        border-bottom: 0;
+    }
+
+    .p-todo-detail__description {
+        padding-top: 0;
+    }
+
+    .p-todo-detail__actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .p-todo-detail__actions > form,
+    .p-todo-detail__actions > .c-button {
+        width: 100%;
+    }
+
+    .p-todo-detail__danger-action {
+        margin-left: 0;
+    }
+
+    .p-todo-detail__form-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .p-todo-detail__form-actions > .c-button {
+        width: 100%;
+        padding-right: 10px;
+        padding-left: 10px;
+        font-size: 13px;
+    }
+
+    .p-todo-detail__actions .c-button {
+        padding-right: 10px;
+        padding-left: 10px;
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,52 @@
+@use 'variables' as v;
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    min-height: 100vh;
+    color: v.$color-text;
+    background-color: v.$color-background;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        'Noto Sans JP',
+        sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: v.$color-navy-800;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: v.$color-blue-500;
+}
+
+h1,
+h2,
+h3 {
+    color: v.$color-navy-900;
+    line-height: 1.4;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    &:focus-visible {
+        outline: 3px solid rgba(v.$color-blue-500, 0.28);
+        outline-offset: 2px;
+    }
+}
+
+::selection {
+    color: v.$color-white;
+    background-color: v.$color-navy-800;
+}

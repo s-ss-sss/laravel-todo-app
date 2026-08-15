@@ -1,17 +1,30 @@
-<h1>ダッシュボード</h1>
+@extends('layouts.app')
 
-<p>
-    ログインユーザー：
-    {{ auth()->user()->name }}
-</p>
+@section('title', 'ダッシュボード')
 
-<p>
-    メールアドレス：
-    {{ auth()->user()->email }}
-</p>
+@section('content')
+    <section class="p-dashboard">
+        <header class="p-dashboard__header">
+            <p class="p-dashboard__eyebrow">ACCOUNT</p>
+            <h1 class="p-dashboard__title">ダッシュボード</h1>
+        </header>
 
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
+        <div class="c-card p-dashboard__body">
+            <dl class="p-dashboard__list">
+                <div class="p-dashboard__item">
+                    <dt class="p-dashboard__label">ユーザー名</dt>
+                    <dd class="p-dashboard__value">
+                        {{ auth()->user()->name }}
+                    </dd>
+                </div>
 
-    <button type="submit">ログアウト</button>
-</form>
+                <div class="p-dashboard__item">
+                    <dt class="p-dashboard__label">メールアドレス</dt>
+                    <dd class="p-dashboard__value">
+                        {{ auth()->user()->email }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+@endsection

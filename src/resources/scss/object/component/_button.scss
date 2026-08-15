@@ -1,0 +1,82 @@
+@use '../../foundation/variables' as v;
+
+.c-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-small;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.c-button--primary {
+    color: v.$color-white;
+    background-color: v.$color-navy-800;
+}
+
+.c-button--primary:hover {
+    color: v.$color-white;
+    background-color: v.$color-navy-900;
+}
+
+.c-button--secondary {
+    color: v.$color-navy-800;
+    background-color: v.$color-white;
+    border-color: v.$color-border;
+
+    &:hover {
+        color: v.$color-navy-900;
+        background-color: v.$color-surface-subtle;
+        border-color: v.$color-border-strong;
+    }
+}
+
+.c-button--danger {
+    color: v.$color-white;
+    background-color: v.$color-danger;
+
+    &:hover {
+        color: v.$color-white;
+        background-color: v.$color-danger-dark;
+    }
+}
+
+.c-button--ghost {
+    min-height: auto;
+    padding: 0;
+    color: v.$color-text;
+    background: transparent;
+
+    &:hover {
+        color: v.$color-blue-500;
+    }
+}
+
+.c-button--small {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.c-button--icon {
+    width: 36px;
+    min-height: 36px;
+    padding: 0;
+    color: v.$color-navy-800;
+    background-color: v.$color-white;
+    border-color: v.$color-border;
+
+    &:hover {
+        color: v.$color-white;
+        background-color: v.$color-navy-800;
+    }
+}

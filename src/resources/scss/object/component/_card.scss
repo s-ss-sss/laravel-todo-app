@@ -1,0 +1,28 @@
+@use '../../foundation/variables' as v;
+
+.c-card {
+    padding: 32px;
+    background-color: v.$color-white;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-medium;
+    box-shadow: v.$shadow-card;
+}
+
+.c-card--flat {
+    box-shadow: none;
+}
+
+.c-empty-state {
+    padding: 56px 24px;
+    color: v.$color-text-muted;
+    text-align: center;
+    background-color: v.$color-white;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-medium;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .c-card {
+        padding: 24px 20px;
+    }
+}

@@ -1,59 +1,88 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>Todo詳細</title>
-</head>
-<body>
-    <h1>Todo詳細</h1>
+@section('title', 'Todo詳細')
 
-    <dl>
-        <dt>タイトル</dt>
-        <dd>{{ $todo->title }}</dd>
+@section('content')
+    <section class="p-todo-detail">
+        <header class="p-todo-detail__header">
+            <p class="p-todo-detail__eyebrow">TASK DETAIL</p>
+            <h1 class="p-todo-detail__title">Todo詳細</h1>
+        </header>
 
-        <dt>説明</dt>
-        <dd>{{ $todo->description ?? '説明はありません。' }}</dd>
+        <div class="c-card p-todo-detail__body">
+            <dl class="p-todo-detail__list">
+                <dt class="p-todo-detail__term">タイトル</dt>
+                <dd class="p-todo-detail__description">
+                    {{ $todo->title }}
+                </dd>
 
-        <dt>期限日</dt>
-        <dd>
-            {{ $todo->due_date?->format('Y/m/d') ?? '期限はありません。' }}
-        </dd>
+                <dt class="p-todo-detail__term">説明</dt>
+                <dd class="p-todo-detail__description">
+                    {{ $todo->description ?? '説明はありません。' }}
+                </dd>
 
-        <dt>状態</dt>
-        <dd>{{ $todo->is_completed ? '完了' : '未完了' }}</dd>
-    </dl>
+                <dt class="p-todo-detail__term">期限日</dt>
+                <dd class="p-todo-detail__description">
+                    {{ $todo->due_date?->format('Y/m/d') ?? '期限はありません。' }}
+                </dd>
 
-    <form
-        method="POST"
-        action="{{ route('todos.toggle-completion', $todo) }}"
-    >
-        @csrf
-        @method('PATCH')
+                <dt class="p-todo-detail__term">状態</dt>
+                <dd class="p-todo-detail__description">
+                    <span
+                        class="c-status {{ $todo->is_completed ? 'c-status--completed' : 'c-status--incomplete' }}"
+                    >
+                        {{ $todo->is_completed ? '完了' : '未完了' }}
+                    </span>
+                </dd>
+            </dl>
 
-        <button type="submit">
-            {{ $todo->is_completed ? '未完了に戻す' : '完了にする' }}
-        </button>
-    </form>
+            <div class="p-todo-detail__actions">
+                <form
+                    method="POST"
+                    action="{{ route('todos.toggle-completion', $todo) }}"
+                >
+                    @csrf
+                    @method('PATCH')
 
-    <p>
-        <a href="{{ route('todos.edit', $todo) }}">このTodoを編集</a>
-    </p>
+                    <button
+                        class="c-button c-button--primary"
+                        type="submit"
+                    >
+                        {{ $todo->is_completed ? '未完了に戻す' : '完了にする' }}
+                    </button>
+                </form>
 
-    <form
-        method="POST"
-        action="{{ route('todos.destroy', $todo) }}"
-        onsubmit="return confirm('このTodoを削除しますか？')"
-    >
-        @csrf
-        @method('DELETE')
+                <a
+                    class="c-button c-button--secondary"
+                    href="{{ route('todos.edit', $todo) }}"
+                >
+                    このTodoを編集
+                </a>
 
-        <button type="submit">このTodoを削除</button>
-    </form>
+                <a
+                    class="c-button c-button--ghost"
+                    href="{{ route('todos.index') }}"
+                >
+                    Todo一覧へ戻る
+                </a>
 
-    <p>
-        <a href="{{ route('todos.index') }}">Todo一覧へ戻る</a>
-    </p>
-</body>
-</html>
+                <form
+                    class="p-todo-detail__danger-action"
+                    method="POST"
+                    action="{{ route('todos.destroy', $todo) }}"
+                    onsubmit="return confirm('このTodoを削除しますか？')"
+                >
+                    @csrf
+                    @method('DELETE')
+
+                    <button
+                        class="c-button c-button--danger"
+                        type="submit"
+                    >
+                        このTodoを削除
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+@endsection
