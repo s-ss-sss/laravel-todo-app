@@ -77,7 +77,8 @@ class TodoController extends Controller
         $todo->save();
 
         return redirect()
-            ->route('todos.index');
+            ->route('todos.index')
+            ->with('success', 'Todoを登録しました。');
     }
 
     /**
@@ -110,7 +111,8 @@ class TodoController extends Controller
         $todo->update($request->validated());
 
         return redirect()
-            ->route('todos.show', $todo);
+            ->route('todos.show', $todo)
+            ->with('success', 'Todoを更新しました。');
     }
 
     /**
@@ -123,7 +125,8 @@ class TodoController extends Controller
         $todo->delete();
 
         return redirect()
-            ->route('todos.index');
+            ->route('todos.index')
+            ->with('success', 'Todoを削除しました。');
     }
 
     /**
@@ -136,8 +139,13 @@ class TodoController extends Controller
         $todo->is_completed = ! $todo->is_completed;
         $todo->save();
 
+        $message = $todo->is_completed
+            ? 'Todoを完了にしました。'
+            : 'Todoを未完了に戻しました。';
+
         return redirect()
-            ->route('todos.show', $todo);
+            ->route('todos.show', $todo)
+            ->with('success', $message);
     }
 
     /**

@@ -96,6 +96,11 @@ class TodoEditTest extends TestCase
 
         $response->assertRedirect(route('todos.show', $todo));
 
+        $response->assertSessionHas(
+            'success',
+            'Todoを更新しました。'
+        );
+
         $this->assertDatabaseHas('todos', [
             'id' => $todo->id,
             'user_id' => $user->id,

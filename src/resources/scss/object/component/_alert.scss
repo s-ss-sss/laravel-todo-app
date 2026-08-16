@@ -1,0 +1,16 @@
+@use '../../foundation/variables' as v;
+
+.c-alert {
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-small;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.c-alert--success {
+    color: v.$color-success;
+    background-color: v.$color-success-light;
+    border-color: rgba(v.$color-success, 0.25);
+}
