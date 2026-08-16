@@ -46,6 +46,11 @@ class TodoDeleteTest extends TestCase
 
         $response->assertRedirect(route('todos.index'));
 
+        $response->assertSessionHas(
+            'success',
+            'Todoを削除しました。'
+        );
+
         $this->assertSoftDeleted('todos', [
             'id' => $todo->id,
         ]);

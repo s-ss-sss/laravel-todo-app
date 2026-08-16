@@ -50,6 +50,11 @@ class TodoCompleteTest extends TestCase
 
         $response->assertRedirect(route('todos.show', $todo));
 
+        $response->assertSessionHas(
+            'success',
+            'Todoを完了にしました。'
+        );
+
         $this->assertTrue(
             $todo->refresh()->is_completed
         );
@@ -73,6 +78,11 @@ class TodoCompleteTest extends TestCase
             ->patch(route('todos.toggle-completion', $todo));
 
         $response->assertRedirect(route('todos.show', $todo));
+
+        $response->assertSessionHas(
+            'success',
+            'Todoを未完了に戻しました。'
+        );
 
         $this->assertFalse(
             $todo->refresh()->is_completed

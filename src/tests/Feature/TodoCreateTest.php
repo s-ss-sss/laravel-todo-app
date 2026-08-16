@@ -69,6 +69,11 @@ class TodoCreateTest extends TestCase
 
         $response->assertRedirect(route('todos.index'));
 
+        $response->assertSessionHas(
+            'success',
+            'Todoを登録しました。'
+        );
+
         $this->assertDatabaseHas('todos', [
             'user_id' => $user->id,
             'title' => 'Laravelのテストを勉強する',
@@ -204,5 +209,25 @@ class TodoCreateTest extends TestCase
             'user_id' => $otherUser->id,
             'title' => 'ログインユーザーのTodo',
         ]);
+    }
+
+    /**
+     * Todo登録後に成功メッセージが表示されることを確認
+     */
+    public function test_success_message_is_displayed_after_creating_todo(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->followingRedirects()
+            ->post(route('todos.store'), [
+                'title' => 'フラッシュメッセージを確認する',
+                'description' => null,
+                'due_date' => null,
+            ]);
+
+        $response->assertOk();
+        $response->assertSee('Todoを登録しました。');
     }
 }

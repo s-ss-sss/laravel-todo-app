@@ -74,6 +74,15 @@
 
     <main class="l-main">
         <div class="l-main__inner">
+            @if (session('success'))
+                <div
+                    class="c-alert c-alert--success"
+                    role="status"
+                >
+                    {{ session('success') }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
     </main>
