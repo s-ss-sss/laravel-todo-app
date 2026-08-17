@@ -63,7 +63,9 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'different-password',
         ]);
 
-        $response->assertSessionHasErrors('password');
+        $response->assertSessionHasErrors([
+            'password' => 'パスワード確認が一致していません。',
+        ]);
 
         $this->assertGuest();
 
@@ -88,10 +90,76 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors([
+            'email' => 'このメールアドレスはすでに登録されています。',
+        ]);
 
         $this->assertGuest();
 
         $this->assertDatabaseCount('users', 1);
+    }
+
+    /**
+     * 必須入力の確認
+     */
+    public function test_required_fields_are_validated_for_registration(): void
+    {
+        $response = $this->post(route('register'), [
+            'name' => '',
+            'email' => '',
+            'password' => '',
+            'password_confirmation' => '',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'name' => 'ユーザー名は必須です。',
+            'email' => 'メールアドレスは必須です。',
+            'password' => 'パスワードは必須です。',
+        ]);
+
+        $this->assertGuest();
+        $this->assertDatabaseCount('users', 0);
+    }
+
+    /**
+     * メールアドレス形式の確認
+     */
+    public function test_email_must_be_valid_for_registration(): void
+    {
+        $response = $this->post(route('register'), [
+            'name' => 'テストユーザー',
+            'email' => 'invalid-email',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'email' => 'メールアドレスは正しい形式で入力してください。',
+        ]);
+
+        $this->assertGuest();
+    }
+
+    /**
+     * パスワードが8文字未満の場合は登録できないことを確認
+     */
+    public function test_password_must_be_at_least_eight_characters(): void
+    {
+        $response = $this->post(route('register'), [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => 'pass123',
+            'password_confirmation' => 'pass123',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'password' => 'パスワードは8文字以上で入力してください。',
+        ]);
+
+        $this->assertGuest();
+
+        $this->assertDatabaseMissing('users', [
+            'email' => 'test@example.com',
+        ]);
     }
 }
