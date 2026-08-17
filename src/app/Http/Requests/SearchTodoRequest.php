@@ -28,4 +28,19 @@ class SearchTodoRequest extends FormRequest
             'due_date' => ['nullable', 'date'],
         ];
     }
+
+    /**
+     * バリデーションエラーメッセージ
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'keyword.string' => 'キーワードは文字列で入力してください。',
+            'keyword.max' => 'キーワードは255文字以内で入力してください。',
+            'status.in' => '状態には完了または未完了を指定してください。',
+            'due_date.date' => '期限日は正しい日付で入力してください。',
+        ];
+    }
 }
