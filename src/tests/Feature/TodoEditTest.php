@@ -198,12 +198,85 @@ class TodoEditTest extends TestCase
             ]);
 
         $response->assertRedirect(route('todos.edit', $todo));
-        $response->assertSessionHasErrors('title');
+
+        $response->assertSessionHasErrors([
+            'title' => 'タイトルは必須です。',
+        ]);
 
         $this->assertDatabaseHas('todos', [
             'id' => $todo->id,
             'title' => '変更前のタイトル',
         ]);
+    }
+
+    /**
+     * 更新時もタイトルが255文字以内であることを確認
+     */
+    public function test_title_must_not_exceed_255_characters_when_updating_todo(): void
+    {
+        $user = User::factory()->create();
+
+        $todo = Todo::factory()
+            ->for($user)
+            ->create([
+                'title' => '変更前のタイトル',
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('todos.edit', $todo))
+            ->put(route('todos.update', $todo), [
+                'title' => str_repeat('a', 256),
+                'description' => null,
+                'due_date' => null,
+            ]);
+
+        $response->assertRedirect(route('todos.edit', $todo));
+
+        $response->assertSessionHasErrors([
+            'title' => 'タイトルは255文字以内で入力してください。',
+        ]);
+
+        $this->assertDatabaseHas('todos', [
+            'id' => $todo->id,
+            'title' => '変更前のタイトル',
+        ]);
+    }
+
+    /**
+     * 更新時も期限日が正しい日付であることを確認
+     */
+    public function test_due_date_must_be_a_valid_date_when_updating_todo(): void
+    {
+        $user = User::factory()->create();
+
+        $todo = Todo::factory()
+            ->for($user)
+            ->create([
+                'due_date' => '2026-08-31',
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('todos.edit', $todo))
+            ->put(route('todos.update', $todo), [
+                'title' => '期限日のテスト',
+                'description' => null,
+                'due_date' => 'invalid-date',
+            ]);
+
+        $response->assertRedirect(route('todos.edit', $todo));
+
+        $response->assertSessionHasErrors([
+            'due_date' => '期限日は正しい日付で入力してください。',
+        ]);
+
+        $todo->refresh();
+
+        $this->assertSame(
+            '2026-08-31',
+            $todo->due_date->format('Y-m-d')
+        );
     }
 
     /**
