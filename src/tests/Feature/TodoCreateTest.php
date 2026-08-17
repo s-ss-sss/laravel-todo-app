@@ -107,7 +107,10 @@ class TodoCreateTest extends TestCase
             ]);
 
         $response->assertRedirect(route('todos.create'));
-        $response->assertSessionHasErrors('title');
+
+        $response->assertSessionHasErrors([
+            'title' => 'タイトルは必須です。',
+        ]);
 
         $this->assertDatabaseCount('todos', 0);
     }
@@ -129,7 +132,10 @@ class TodoCreateTest extends TestCase
             ]);
 
         $response->assertRedirect(route('todos.create'));
-        $response->assertSessionHasErrors('title');
+
+        $response->assertSessionHasErrors([
+            'title' => 'タイトルは255文字以内で入力してください。',
+        ]);
 
         $this->assertDatabaseCount('todos', 0);
     }
@@ -151,7 +157,10 @@ class TodoCreateTest extends TestCase
             ]);
 
         $response->assertRedirect(route('todos.create'));
-        $response->assertSessionHasErrors('due_date');
+
+        $response->assertSessionHasErrors([
+            'due_date' => '期限日は正しい日付で入力してください。',
+        ]);
 
         $this->assertDatabaseCount('todos', 0);
     }

@@ -28,4 +28,20 @@ class StoreTodoRequest extends FormRequest
             'due_date' => ['nullable', 'date'],
         ];
     }
+
+    /**
+     * バリデーションエラーメッセージ
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'タイトルは必須です。',
+            'title.string' => 'タイトルは文字列で入力してください。',
+            'title.max' => 'タイトルは255文字以内で入力してください。',
+            'description.string' => '説明は文字列で入力してください。',
+            'due_date.date' => '期限日は正しい日付で入力してください。',
+        ];
+    }
 }
