@@ -52,7 +52,9 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ]);
     }
 
     /**
@@ -96,5 +98,40 @@ class AuthenticationTest extends TestCase
         $response->assertViewIs('dashboard');
         $response->assertSee($user->name);
         $response->assertSee($user->email);
+    }
+
+    /**
+     * ログイン情報が未入力の場合はログインできないことを確認
+     */
+    public function test_email_and_password_are_required_for_login(): void
+    {
+        $response = $this->post(route('login'), [
+            'email' => '',
+            'password' => '',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'email' => 'メールアドレスは必須です。',
+            'password' => 'パスワードは必須です。',
+        ]);
+
+        $this->assertGuest();
+    }
+
+    /**
+     * 登録されていないメールアドレスではログインできないことを確認
+     */
+    public function test_users_cannot_authenticate_with_unknown_email(): void
+    {
+        $response = $this->post(route('login'), [
+            'email' => 'unknown@example.com',
+            'password' => 'password',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ]);
+
+        $this->assertGuest();
     }
 }
