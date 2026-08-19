@@ -27,8 +27,17 @@
 
 .p-todo-search__fields {
     display: grid;
+    align-items: start;
     grid-template-columns: minmax(0, 2fr) minmax(150px, 1fr) minmax(170px, 1fr);
     gap: 20px;
+}
+
+.p-todo-search__fields > .c-form__group {
+    min-width: 0;
+}
+
+.p-todo-search__fields .c-form__control {
+    height: 46px;
 }
 
 .p-todo-search__actions > .c-button {

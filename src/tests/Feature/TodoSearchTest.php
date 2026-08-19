@@ -217,4 +217,67 @@ class TodoSearchTest extends TestCase
         $response->assertSeeText($matchingTodo->title);
         $response->assertDontSeeText($wrongStatusTodo->title);
     }
+
+    /**
+     * キーワードが255文字を超える場合は検索できないことを確認
+     */
+    public function test_keyword_must_not_exceed_255_characters(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('todos.index'))
+            ->get(route('todos.index', [
+                'keyword' => str_repeat('a', 256),
+            ]));
+
+        $response->assertRedirect(route('todos.index'));
+
+        $response->assertSessionHasErrors([
+            'keyword' => 'キーワードは255文字以内で入力してください。',
+        ]);
+    }
+
+    /**
+     * 不正な状態では検索できないことを確認
+     */
+    public function test_status_must_be_a_valid_value(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('todos.index'))
+            ->get(route('todos.index', [
+                'status' => 'invalid-status',
+            ]));
+
+        $response->assertRedirect(route('todos.index'));
+
+        $response->assertSessionHasErrors([
+            'status' => '状態には完了または未完了を指定してください。',
+        ]);
+    }
+
+    /**
+     * 不正な期限日では検索できないことを確認
+     */
+    public function test_due_date_must_be_a_valid_date_for_search(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('todos.index'))
+            ->get(route('todos.index', [
+                'due_date' => 'invalid-date',
+            ]));
+
+        $response->assertRedirect(route('todos.index'));
+
+        $response->assertSessionHasErrors([
+            'due_date' => '期限日は正しい日付で入力してください。',
+        ]);
+    }
 }

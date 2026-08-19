@@ -29,6 +29,29 @@
                 method="GET"
                 action="{{ route('todos.index') }}"
             >
+                @if ($errors->any())
+                    <div
+                        class="c-form-errors"
+                        role="alert"
+                        aria-labelledby="search-errors-title"
+                    >
+                        <p
+                            class="c-form-errors__title"
+                            id="search-errors-title"
+                        >
+                            検索条件を確認してください。
+                        </p>
+
+                        <ul class="c-form-errors__list">
+                            @foreach ($errors->all() as $error)
+                                <li class="c-form-errors__item">
+                                    {{ $error }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="p-todo-search__fields">
                     <div class="c-form__group">
                         <label class="c-form__label" for="keyword">
@@ -36,16 +59,25 @@
                         </label>
 
                         <input
-                            class="c-form__control"
+                            class="c-form__control @error('keyword') is-invalid @enderror"
                             id="keyword"
                             name="keyword"
                             type="search"
-                            value="{{ request('keyword') }}"
+                            value="{{ old('keyword', request('keyword')) }}"
                             placeholder="タイトル・説明から検索"
+                            aria-invalid="{{ $errors->has('keyword') ? 'true' : 'false' }}"
+                            @error('keyword')
+                                aria-describedby="keyword-error"
+                            @enderror
                         >
 
                         @error('keyword')
-                            <p class="c-form__error">{{ $message }}</p>
+                            <p
+                                class="c-form__error"
+                                id="keyword-error"
+                            >
+                                {{ $message }}
+                            </p>
                         @enderror
                     </div>
 
@@ -55,29 +87,38 @@
                         </label>
 
                         <select
-                            class="c-form__control"
+                            class="c-form__control @error('status') is-invalid @enderror"
                             id="status"
                             name="status"
+                            aria-invalid="{{ $errors->has('status') ? 'true' : 'false' }}"
+                            @error('status')
+                                aria-describedby="status-error"
+                            @enderror
                         >
                             <option value="">すべて</option>
 
                             <option
                                 value="completed"
-                                @selected(request('status') === 'completed')
+                                @selected(old('status', request('status')) === 'completed')
                             >
                                 完了
                             </option>
 
                             <option
                                 value="incomplete"
-                                @selected(request('status') === 'incomplete')
+                                @selected(old('status', request('status')) === 'incomplete')
                             >
                                 未完了
                             </option>
                         </select>
 
                         @error('status')
-                            <p class="c-form__error">{{ $message }}</p>
+                            <p
+                                class="c-form__error"
+                                id="status-error"
+                            >
+                                {{ $message }}
+                            </p>
                         @enderror
                     </div>
 
@@ -87,15 +128,24 @@
                         </label>
 
                         <input
-                            class="c-form__control"
+                            class="c-form__control @error('due_date') is-invalid @enderror"
                             id="due_date"
                             name="due_date"
                             type="date"
-                            value="{{ request('due_date') }}"
+                            value="{{ old('due_date', request('due_date')) }}"
+                            aria-invalid="{{ $errors->has('due_date') ? 'true' : 'false' }}"
+                            @error('due_date')
+                                aria-describedby="search-due-date-error"
+                            @enderror
                         >
 
                         @error('due_date')
-                            <p class="c-form__error">{{ $message }}</p>
+                            <p
+                                class="c-form__error"
+                                id="search-due-date-error"
+                            >
+                                {{ $message }}
+                            </p>
                         @enderror
                     </div>
                 </div>
