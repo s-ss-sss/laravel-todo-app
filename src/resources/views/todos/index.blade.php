@@ -15,12 +15,21 @@
                 </h1>
             </div>
 
-            <a
-                class="c-button c-button--primary"
-                href="{{ route('todos.create') }}"
-            >
-                新しいTodoを登録
-            </a>
+            <div class="p-page-header__actions">
+                <a
+                    class="c-button c-button--primary"
+                    href="{{ route('todos.create') }}"
+                >
+                    新しいTodoを登録
+                </a>
+
+                <a
+                    class="c-button c-button--secondary"
+                    href="{{ route('todos.trash') }}"
+                >
+                    ゴミ箱
+                </a>
+            </div>
         </div>
 
         <div class="c-card c-card--flat p-todo-list__search">

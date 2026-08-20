@@ -22,6 +22,22 @@ Route::post('/todos', [TodoController::class, 'store'])
     ->middleware('auth')
     ->name('todos.store');
 
+Route::get('/todos/trash', [TodoController::class, 'trash'])
+    ->middleware('auth')
+    ->name('todos.trash');
+
+Route::delete('/todos/trash', [TodoController::class, 'emptyTrash'])
+    ->middleware('auth')
+    ->name('todos.trash.empty');
+
+Route::patch('/todos/trash/{todo}/restore', [TodoController::class, 'restore'])
+    ->middleware('auth')
+    ->name('todos.restore');
+
+Route::delete('/todos/trash/{todo}', [TodoController::class, 'forceDelete'])
+    ->middleware('auth')
+    ->name('todos.force-delete');
+
 Route::get('/todos/{todo}', [TodoController::class, 'show'])
     ->middleware('auth')
     ->name('todos.show');

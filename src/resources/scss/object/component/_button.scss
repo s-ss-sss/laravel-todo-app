@@ -50,6 +50,18 @@
     }
 }
 
+.c-button--danger-outline {
+    color: v.$color-danger;
+    background-color: v.$color-white;
+    border-color: v.$color-danger;
+
+    &:hover {
+        color: v.$color-white;
+        background-color: v.$color-danger;
+        border-color: v.$color-danger;
+    }
+}
+
 .c-button--ghost {
     min-height: auto;
     padding: 0;

@@ -5,7 +5,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 24px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 }
 
 .p-todo-list__eyebrow {
@@ -19,6 +19,13 @@
 .p-todo-list__title {
     font-size: clamp(32px, 5vw, 48px);
     letter-spacing: -0.03em;
+}
+
+.p-todo-list .p-page-header__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .p-todo-list__search {
@@ -113,6 +120,15 @@
     .p-todo-list__header {
         align-items: stretch;
         flex-direction: column;
+    }
+
+    .p-todo-list .p-page-header__actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .p-todo-list .p-page-header__actions .c-button {
+        width: 100%;
     }
 
     .p-todo-search__fields {

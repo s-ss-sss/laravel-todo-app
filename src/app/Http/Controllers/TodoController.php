@@ -215,4 +215,77 @@ class TodoController extends Controller
         return redirect()
             ->route('todos.index');
     }
+
+    /**
+     * ログインユーザーの削除済みTodo一覧を表示
+     */
+    public function trash(Request $request): View
+    {
+        $todos = $request->user()
+            ->todos()
+            ->onlyTrashed()
+            ->latest('deleted_at')
+            ->paginate(10);
+
+        return view('todos.trash', compact('todos'));
+    }
+
+    /**
+     * 削除済みTodoを通常一覧の末尾へ復元
+     */
+    public function restore(
+        Request $request,
+        int $todo
+    ): RedirectResponse {
+        $trashedTodo = $request->user()
+            ->todos()
+            ->onlyTrashed()
+            ->findOrFail($todo);
+
+        $trashedTodo->sort_order = (
+            (int) $request->user()
+                ->todos()
+                ->max('sort_order')
+        ) + 1;
+
+        $trashedTodo->restore();
+
+        return redirect()
+            ->route('todos.trash')
+            ->with('success', 'Todoを復元しました。');
+    }
+
+    /**
+     * 削除済みTodoをデータベースから完全削除
+     */
+    public function forceDelete(
+        Request $request,
+        int $todo
+    ): RedirectResponse {
+        $trashedTodo = $request->user()
+            ->todos()
+            ->onlyTrashed()
+            ->findOrFail($todo);
+
+        $trashedTodo->forceDelete();
+
+        return redirect()
+            ->route('todos.trash')
+            ->with('success', 'Todoを完全に削除しました。');
+    }
+
+    /**
+     * ログインユーザーのゴミ箱を空にする
+     */
+    public function emptyTrash(Request $request): RedirectResponse
+    {
+        $request->user()
+            ->todos()
+            ->onlyTrashed()
+            ->forceDelete();
+
+        return redirect()
+            ->route('todos.trash')
+            ->with('success', 'ゴミ箱を空にしました。');
+    }
 }
