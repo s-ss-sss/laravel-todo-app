@@ -1,7 +1,7 @@
 # Laravel Todo App
 
 ## Overview
-Laravelで構築したToDoアプリケーションです。  
+Laravelで構築したTodoアプリケーションです。  
 Dockerで開発環境を構築し、認証・CRUD・検索機能を実装します。
 
 ## Features
@@ -10,14 +10,20 @@ Dockerで開発環境を構築し、認証・CRUD・検索機能を実装しま�
 - ログイン
 - ログアウト
 
-### タスク管理機能
-- タスク一覧
-- タスク詳細
-- タスク登録
-- タスク編集
-- タスク削除
-- タスク完了
+### Todo管理機能
+- Todo一覧
+- Todo詳細
+- Todo登録
+- Todo編集
+- Todo削除（論理削除）
+- Todo完了
 - 並び替え
+
+### ゴミ箱機能
+- Todo削除一覧
+- Todo復元
+- Todo個別削除（物理削除）
+- Todo一括削除（物理削除）
 
 ### 検索機能
 - キーワード検索
@@ -124,17 +130,17 @@ docker compose exec app php artisan migrate
 
 ### todos
 | Column | Type | Null | Key | Default | Description |
-|---|---|---|---|---|---|
-| id | BIGINT | NO | PK | AUTO_INCREMENT | ToDo ID |
-| user_id | BIGINT | NO | FK | - | ユーザーID |
-| title | VARCHAR(255) | NO | - | - | タイトル |
-| description | TEXT | YES | - | NULL | 説明 |
-| is_completed | BOOLEAN | NO | - | false | 完了フラグ |
-| due_date | DATE | YES | - | NULL | 期限日 |
-| sort_order | INT | NO | - | 0 | 表示順 |
-| created_at | TIMESTAMP | YES | - | NULL | 登録日時 |
-| updated_at | TIMESTAMP | YES | - | NULL | 更新日時 |
-| deleted_at | TIMESTAMP | YES | - | NULL | 削除日時 |
+|---|---|---|---|---|-------------|
+| id | BIGINT | NO | PK | AUTO_INCREMENT | Todo ID     |
+| user_id | BIGINT | NO | FK | - | ユーザーID      |
+| title | VARCHAR(255) | NO | - | - | タイトル        |
+| description | TEXT | YES | - | NULL | 説明          |
+| is_completed | BOOLEAN | NO | - | false | 完了フラグ       |
+| due_date | DATE | YES | - | NULL | 期限日         |
+| sort_order | INT | NO | - | 0 | 表示順         |
+| created_at | TIMESTAMP | YES | - | NULL | 登録日時        |
+| updated_at | TIMESTAMP | YES | - | NULL | 更新日時        |
+| deleted_at | TIMESTAMP | YES | - | NULL | 削除日時        |
 
 ## ER
 ```mermaid

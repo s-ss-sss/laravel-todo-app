@@ -1,0 +1,128 @@
+@use '../../foundation/variables' as v;
+
+.p-todo-trash {
+    display: grid;
+    gap: 32px;
+}
+
+.p-todo-trash .p-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.p-todo-trash .p-page-header__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-blue-500;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
+.p-todo-trash .p-page-header__title {
+    font-size: clamp(32px, 5vw, 48px);
+    letter-spacing: -0.03em;
+}
+
+.p-todo-trash__header-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 180px);
+    gap: 12px;
+}
+
+.p-todo-trash__header-actions .c-button {
+    width: 100%;
+}
+
+.p-todo-trash__list {
+    overflow: hidden;
+    padding: 0;
+}
+
+.p-todo-trash__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 30px;
+    border-bottom: 1px solid v.$color-border;
+    transition: background-color 0.2s ease;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    &:hover {
+        background-color: v.$color-surface-subtle;
+    }
+}
+
+.p-todo-trash__content {
+    min-width: 0;
+}
+
+.p-todo-trash__title {
+    overflow: hidden;
+    color: v.$color-navy-900;
+    font-size: 18px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.p-todo-trash__date {
+    margin-top: 8px;
+    color: v.$color-text-muted;
+    font-size: 13px;
+}
+
+.p-todo-trash__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 140px));
+    gap: 8px;
+}
+
+.p-todo-trash__actions .c-button {
+    width: 100%;
+}
+
+.p-todo-trash__empty {
+    padding: 56px 24px;
+    color: v.$color-text-muted;
+    text-align: center;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .p-todo-trash .p-page-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .p-todo-trash__header-actions {
+        grid-auto-columns: minmax(0, 1fr);
+    }
+
+    .p-todo-trash__header-actions .c-button {
+        padding-right: 10px;
+        padding-left: 10px;
+        font-size: 13px;
+    }
+
+    .p-todo-trash__item {
+        grid-template-columns: 1fr;
+        padding: 22px 20px;
+    }
+
+    .p-todo-trash__actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .p-todo-trash__actions .c-button {
+        padding-right: 10px;
+        padding-left: 10px;
+        font-size: 13px;
+    }
+
+}
