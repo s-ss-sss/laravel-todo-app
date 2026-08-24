@@ -206,11 +206,19 @@
                                     {{ $todo->title }}
                                 </a>
 
-                                <span
-                                    class="c-status {{ $todo->is_completed ? 'c-status--completed' : 'c-status--incomplete' }}"
-                                >
-                                    {{ $todo->is_completed ? '完了' : '未完了' }}
-                                </span>
+                                <div class="c-status-group">
+                                    <span
+                                        class="c-status {{ $todo->is_completed ? 'c-status--completed' : 'c-status--incomplete' }}"
+                                    >
+                                        {{ $todo->is_completed ? '完了' : '未完了' }}
+                                    </span>
+
+                                    @if ($todo->isOverdue())
+                                        <span class="c-status c-status--overdue">
+                                            期限切れ
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
                             <p class="p-todo-list__meta">

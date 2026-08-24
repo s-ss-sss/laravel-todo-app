@@ -1,5 +1,12 @@
 @use '../../foundation/variables' as v;
 
+.c-status-group {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
 .c-status {
     display: inline-flex;
     align-items: center;
@@ -22,4 +29,10 @@
     color: v.$color-navy-700;
     background-color: v.$color-blue-100;
     border-color: rgba(v.$color-blue-500, 0.18);
+}
+
+.c-status--overdue {
+    color: v.$color-danger-dark;
+    background-color: v.$color-danger-light;
+    border-color: rgba(v.$color-danger, 0.2);
 }
