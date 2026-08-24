@@ -34,4 +34,14 @@ class Todo extends Model
             'due_date' => 'date',
         ];
     }
+
+    /**
+     * Todoが期限切れか判定
+     */
+    public function isOverdue(): bool
+    {
+        return ! $this->is_completed
+            && $this->due_date !== null
+            && $this->due_date->isBefore(today());
+    }
 }
