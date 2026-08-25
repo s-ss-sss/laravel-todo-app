@@ -33,8 +33,8 @@
                     </a>
 
                     <a
-                        class="l-header__link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}"
-                        href="{{ route('dashboard') }}"
+                        class="l-header__link {{ request()->routeIs('account.*') ? 'is-active' : '' }}"
+                        href="{{ route('account.show') }}"
                     >
                         アカウント
                     </a>

@@ -35,7 +35,7 @@ class AuthenticationTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect(route('todos.index'));
     }
 
     /**

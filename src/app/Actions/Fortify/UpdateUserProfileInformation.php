@@ -20,17 +20,31 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input): void
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+        Validator::make(
+            $input,
+            [
+                'name' => ['required', 'string', 'max:255'],
 
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique('users')->ignore($user->id),
+                ],
             ],
-        ])->validateWithBag('updateProfileInformation');
+            [
+                'name.required' => 'ユーザー名は必須です。',
+                'name.string' => 'ユーザー名は文字列で入力してください。',
+                'name.max' => 'ユーザー名は255文字以内で入力してください。',
+
+                'email.required' => 'メールアドレスは必須です。',
+                'email.string' => 'メールアドレスは文字列で入力してください。',
+                'email.email' => 'メールアドレスは正しい形式で入力してください。',
+                'email.max' => 'メールアドレスは255文字以内で入力してください。',
+                'email.unique' => 'このメールアドレスはすでに登録されています。',
+            ]
+        )->validateWithBag('updateProfileInformation');
 
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {

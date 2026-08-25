@@ -11,6 +11,7 @@
 @use 'object/component/pagination';
 @use 'object/component/status';
 
+@use 'object/project/account';
 @use 'object/project/auth';
 @use 'object/project/dashboard';
 @use 'object/project/todo-detail';

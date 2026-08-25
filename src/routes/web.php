@@ -65,3 +65,7 @@ Route::patch('/todos/{todo}/move-down', [TodoController::class, 'moveDown'])
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
     ->middleware('auth')
     ->name('todos.destroy');
+
+Route::view('/account', 'account.show')
+    ->middleware('auth')
+    ->name('account.show');

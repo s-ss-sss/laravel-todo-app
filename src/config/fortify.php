@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => '/todos',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,6 +163,8 @@ return [
 
     'features' => [
         Features::registration(),
+        Features::updateProfileInformation(),
+        Features::updatePasswords(),
     ],
 
 ];

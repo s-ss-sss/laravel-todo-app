@@ -1,0 +1,79 @@
+@use '../../foundation/variables' as v;
+
+.p-account {
+    width: 100%;
+}
+
+.p-account__header {
+    margin-bottom: 32px;
+}
+
+.p-account__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-blue-500;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.p-account__title {
+    font-size: clamp(32px, 5vw, 48px);
+    letter-spacing: -0.03em;
+}
+
+.p-account__sections {
+    display: grid;
+    gap: 24px;
+    width: min(100%, v.$content-width-medium);
+}
+
+.p-account__section {
+    display: grid;
+    gap: 24px;
+}
+
+.p-account__section--danger {
+    border-color: rgba(v.$color-danger, 0.35);
+}
+
+.p-account__section-header {
+    display: grid;
+    gap: 8px;
+}
+
+.p-account__section-title {
+    color: v.$color-navy-900;
+    font-size: 22px;
+}
+
+.p-account__section-title--danger {
+    color: v.$color-danger-dark;
+}
+
+.p-account__section-description {
+    color: v.$color-text-muted;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.p-account__form-actions .c-button {
+    width: 200px;
+}
+
+@media (max-width: v.$breakpoint-tablet) {
+    .p-account__header {
+        margin-bottom: 24px;
+    }
+
+    .p-account__sections {
+        gap: 16px;
+    }
+
+    .p-account__section {
+        gap: 20px;
+    }
+
+    .p-account__form-actions .c-button {
+        width: 100%;
+    }
+}
