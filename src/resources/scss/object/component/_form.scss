@@ -104,19 +104,8 @@ textarea.c-form__control {
 }
 
 .c-form-errors__title {
-    font-weight: 700;
-}
-
-.c-form-errors__list {
-    display: grid;
-    gap: 4px;
-    margin-top: 8px;
-    padding-left: 20px;
-    list-style: disc;
-}
-
-.c-form-errors__item {
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .c-form__actions {

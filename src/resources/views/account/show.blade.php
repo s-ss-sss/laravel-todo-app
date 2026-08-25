@@ -43,6 +43,21 @@
                     @csrf
                     @method('PUT')
 
+                    @if ($errors->updateProfileInformation->any())
+                        <div
+                            class="c-form-errors"
+                            role="alert"
+                            aria-labelledby="profile-errors-title"
+                        >
+                            <p
+                                class="c-form-errors__title"
+                                id="profile-errors-title"
+                            >
+                                プロフィール情報の入力内容を確認してください。
+                            </p>
+                        </div>
+                    @endif
+
                     <div class="c-form__group">
                         <label
                             class="c-form__label"
@@ -62,11 +77,11 @@
                             type="text"
                             value="{{ old('name', auth()->user()->name) }}"
                             autocomplete="name"
-                            required
+                            aria-invalid="{{ $errors->updateProfileInformation->has('name') ? 'true' : 'false' }}"
                             @error('name', 'updateProfileInformation')
-                                aria-invalid="true"
                                 aria-describedby="profile-name-error"
                             @enderror
+                            required
                         >
 
                         @error('name', 'updateProfileInformation')
@@ -98,11 +113,11 @@
                             type="email"
                             value="{{ old('email', auth()->user()->email) }}"
                             autocomplete="email"
-                            required
+                            aria-invalid="{{ $errors->updateProfileInformation->has('email') ? 'true' : 'false' }}"
                             @error('email', 'updateProfileInformation')
-                                aria-invalid="true"
                                 aria-describedby="profile-email-error"
                             @enderror
+                            required
                         >
 
                         @error('email', 'updateProfileInformation')
@@ -154,6 +169,21 @@
                     @csrf
                     @method('PUT')
 
+                    @if ($errors->updatePassword->any())
+                        <div
+                            class="c-form-errors"
+                            role="alert"
+                            aria-labelledby="password-update-errors-title"
+                        >
+                            <p
+                                class="c-form-errors__title"
+                                id="password-update-errors-title"
+                            >
+                                パスワードの入力内容を確認してください。
+                            </p>
+                        </div>
+                    @endif
+
                     <div class="c-form__group">
                         <label
                             class="c-form__label"
@@ -172,11 +202,11 @@
                             name="current_password"
                             type="password"
                             autocomplete="current-password"
-                            required
+                            aria-invalid="{{ $errors->updatePassword->has('current_password') ? 'true' : 'false' }}"
                             @error('current_password', 'updatePassword')
-                                aria-invalid="true"
                                 aria-describedby="current-password-error"
                             @enderror
+                            required
                         >
 
                         @error('current_password', 'updatePassword')
@@ -207,11 +237,11 @@
                             name="password"
                             type="password"
                             autocomplete="new-password"
-                            required
+                            aria-invalid="{{ $errors->updatePassword->has('password') ? 'true' : 'false' }}"
                             @error('password', 'updatePassword')
-                                aria-invalid="true"
                                 aria-describedby="new-password-error"
                             @enderror
+                            required
                         >
 
                         @error('password', 'updatePassword')

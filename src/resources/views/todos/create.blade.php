@@ -28,14 +28,6 @@
                         >
                             入力内容を確認してください。
                         </p>
-
-                        <ul class="c-form-errors__list">
-                            @foreach ($errors->all() as $error)
-                                <li class="c-form-errors__item">
-                                    {{ $error }}
-                                </li>
-                            @endforeach
-                        </ul>
                     </div>
                 @endif
 
