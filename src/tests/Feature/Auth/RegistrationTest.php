@@ -36,7 +36,7 @@ class RegistrationTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect(route('todos.index'));
 
         $this->assertDatabaseHas('users', [
             'name' => 'テストユーザー',

@@ -12,26 +12,27 @@
 
             <form class="c-form" method="POST" action="{{ route('login') }}">
                 @csrf
+                @php
+                    $hasAuthenticationError = $errors->first('email') === __('auth.failed');
+                @endphp
+
                 @if ($errors->any())
                     <div
                         class="c-form-errors"
                         role="alert"
-                        aria-labelledby="form-errors-title"
                     >
                         <p
                             class="c-form-errors__title"
-                            id="form-errors-title"
+                            @if ($hasAuthenticationError)
+                                id="credentials-error"
+                            @endif
                         >
-                            入力内容を確認してください。
+                            @if ($hasAuthenticationError)
+                                {{ __('auth.failed') }}
+                            @else
+                                入力内容を確認してください。
+                            @endif
                         </p>
-
-                        <ul class="c-form-errors__list">
-                            @foreach ($errors->all() as $error)
-                                <li class="c-form-errors__item">
-                                    {{ $error }}
-                                </li>
-                            @endforeach
-                        </ul>
                     </div>
                 @endif
 
@@ -48,20 +49,24 @@
                         value="{{ old('email') }}"
                         autocomplete="email"
                         aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
-                        @error('email')
+                        @if ($hasAuthenticationError)
+                            aria-describedby="credentials-error"
+                        @elseif ($errors->has('email'))
                             aria-describedby="email-error"
-                        @enderror
+                        @endif
                         required
                         autofocus
                     >
 
                     @error('email')
-                        <p
-                            class="c-form__error"
-                            id="email-error"
-                        >
-                            {{ $message }}
-                        </p>
+                        @unless ($hasAuthenticationError)
+                            <p
+                                class="c-form__error"
+                                id="email-error"
+                            >
+                                {{ $message }}
+                            </p>
+                        @endunless
                     @enderror
                 </div>
 
@@ -71,15 +76,17 @@
                         <span class="c-form__required">必須</span>
                     </label>
                     <input
-                        class="c-form__control @error('password') is-invalid @enderror"
+                        class="c-form__control {{ $errors->has('password') || $hasAuthenticationError ? 'is-invalid' : '' }}"
                         id="password"
                         name="password"
                         type="password"
                         autocomplete="current-password"
-                        aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
-                        @error('password')
+                        aria-invalid="{{ $errors->has('password') || $hasAuthenticationError ? 'true' : 'false' }}"
+                        @if ($hasAuthenticationError)
+                            aria-describedby="credentials-error"
+                        @elseif ($errors->has('password'))
                             aria-describedby="password-error"
-                        @enderror
+                        @endif
                         required
                     >
 
