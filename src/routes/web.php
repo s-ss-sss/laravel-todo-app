@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,14 @@ Route::redirect('/', '/todos')
 Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
     ->name('dashboard');
+
+Route::view('/account', 'account.show')
+    ->middleware('auth')
+    ->name('account.show');
+
+Route::delete('/account', [AccountController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('account.destroy');
 
 Route::get('/todos', [TodoController::class, 'index'])
     ->middleware('auth')
@@ -65,7 +74,3 @@ Route::patch('/todos/{todo}/move-down', [TodoController::class, 'moveDown'])
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])
     ->middleware('auth')
     ->name('todos.destroy');
-
-Route::view('/account', 'account.show')
-    ->middleware('auth')
-    ->name('account.show');

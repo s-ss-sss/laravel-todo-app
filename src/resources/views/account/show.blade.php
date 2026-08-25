@@ -298,7 +298,30 @@
                     </p>
                 </header>
 
-                <div class="c-form">
+                <form
+                    class="c-form"
+                    method="POST"
+                    action="{{ route('account.destroy') }}"
+                    onsubmit="return confirm('アカウントを削除しますか？削除後はログインできなくなります。')"
+                >
+                    @csrf
+                    @method('DELETE')
+
+                    @if ($errors->deleteAccount->any())
+                        <div
+                            class="c-form-errors"
+                            role="alert"
+                            aria-labelledby="delete-account-errors-title"
+                        >
+                            <p
+                                class="c-form-errors__title"
+                                id="delete-account-errors-title"
+                            >
+                                アカウント削除の入力内容を確認してください。
+                            </p>
+                        </div>
+                    @endif
+
                     <div class="c-form__group">
                         <label
                             class="c-form__label"
@@ -312,25 +335,37 @@
                         </label>
 
                         <input
-                            class="c-form__control"
+                            class="c-form__control @error('current_password', 'deleteAccount') is-invalid @enderror"
                             id="delete_current_password"
                             name="current_password"
                             type="password"
                             autocomplete="current-password"
-                            disabled
+                            aria-invalid="{{ $errors->deleteAccount->has('current_password') ? 'true' : 'false' }}"
+                            @error('current_password', 'deleteAccount')
+                                aria-describedby="delete-current-password-error"
+                            @enderror
+                            required
                         >
+
+                        @error('current_password', 'deleteAccount')
+                            <p
+                                class="c-form__error"
+                                id="delete-current-password-error"
+                            >
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
                     <div class="c-form__actions p-account__form-actions">
                         <button
                             class="c-button c-button--danger-outline"
-                            type="button"
-                            disabled
+                            type="submit"
                         >
                             アカウントを削除
                         </button>
                     </div>
-                </div>
+                </form>
             </section>
         </div>
     </section>
