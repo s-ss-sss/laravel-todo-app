@@ -7,10 +7,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/todos')
     ->name('home');
 
-Route::view('/dashboard', 'dashboard')
-    ->middleware('auth')
-    ->name('dashboard');
-
 Route::view('/account', 'account.show')
     ->middleware('auth')
     ->name('account.show');

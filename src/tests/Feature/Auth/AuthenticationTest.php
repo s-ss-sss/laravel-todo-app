@@ -74,33 +74,6 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * 未ログインユーザーはダッシュボードからログイン画面へ転送されることを確認
-     */
-    public function test_guests_are_redirected_from_dashboard_to_login(): void
-    {
-        $response = $this->get(route('dashboard'));
-
-        $response->assertRedirect(route('login'));
-    }
-
-    /**
-     * ログインユーザーがダッシュボードを表示できることを確認
-     */
-    public function test_authenticated_users_can_view_dashboard(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->get(route('dashboard'));
-
-        $response->assertOk();
-        $response->assertViewIs('dashboard');
-        $response->assertSee($user->name);
-        $response->assertSee($user->email);
-    }
-
-    /**
      * ログイン情報が未入力の場合はログインできないことを確認
      */
     public function test_email_and_password_are_required_for_login(): void
