@@ -25,7 +25,7 @@ Dockerで開発環境を構築し、認証・Todo管理・検索・ゴミ箱・�
 - Todo削除一覧
 - Todo復元
 - Todo個別削除（物理削除）
-- Todo一括削除（物理削除）
+- ゴミ箱を空にする（物理削除）
 
 ### 検索機能
 - キーワード検索
@@ -64,11 +64,16 @@ Dockerで開発環境を構築し、認証・Todo管理・検索・ゴミ箱・�
 ## Directory
 ```bash
 todo/
+├── .github
+│   └── workflows/
+│       └── ci.yml      # CI設定
 ├── docker/
 │   ├── apache/         # Apache設定
 │   ├── php/            # PHP設定
 │   ├── mysql/          # MySQL設定
 │   └── Dockerfile      # Dockerfile設定
+├── docs/
+│   └── transition.jpg  # 画面遷移図
 ├── src/
 │   ├── app/            # アプリケーションロジック
 │   ├── database/       # マイグレーション・Seeder
@@ -76,9 +81,8 @@ todo/
 │   ├── resources/      # Blade・SCSS・JavaScript
 │   ├── routes/         # ルーティング
 │   └── tests/          # テストコード
-├── docker-compose.yml  # Docker Compose設定
 ├── .env.example        # 環境変数サンプル
-├── .gitignore
+├── docker-compose.yml  # Docker Compose設定
 └── README.md
 ```
 ## Setup
@@ -102,9 +106,9 @@ docker compose build app
 docker compose run --rm --no-deps app composer install
 ```
 
-5. コンテナを起動
+5. アプリケーションとデータベースを起動
 ```bash
-docker compose up -d
+docker compose up -d app db
 ```
 
 6. Laravelのアプリケーションキーを生成
@@ -116,6 +120,39 @@ docker compose exec app php artisan key:generate
 ```bash
 docker compose exec app php artisan migrate
 ```
+
+8. フロントエンドの依存パッケージをインストール
+```bash
+docker compose run --rm node npm ci
+```
+
+9. Viteを起動
+```bash
+docker compose up -d node
+```
+
+10. ブラウザで `http://localhost:8080/` にアクセス  
+（開発を終了する際は `docker compose down` でコンテナを停止できます。）
+
+## Test
+1. Laravelのテストを実行
+```bash
+docker compose exec app php artisan test
+```
+
+2. PHPのコードスタイルテストを実行
+```bash
+docker compose exec app ./vendor/bin/pint --test
+```
+
+3. SCSS・JavaScriptの本番向けビルドを実行
+```bash
+docker compose run --rm node npm run build
+```
+
+## CI
+GitHub Actionsで `main` 向けのプルリクエストと `main` へのpush時に、Laravelのテスト・Pint・Viteビルドを自動実行します。  
+`main` はRulesetで保護し、プルリクエストと必須チェックの成功をマージ条件にしています。
 
 ## Database
 ### users
