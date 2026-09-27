@@ -4,8 +4,9 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/todos')
-    ->name('home');
+Route::get('/', function () {
+    return redirect()->route('todos.index');
+})->name('home');
 
 Route::view('/account', 'account.show')
     ->middleware('auth')
