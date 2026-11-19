@@ -1,16 +1,20 @@
 # Laravel Todo App
 
 ## Overview
-Laravelで構築したTodoアプリケーションです。  
+Laravelで構築したTodoアプリケーションです。
+
 Dockerで開発環境を構築し、認証・Todo管理・検索・ゴミ箱・アカウント管理機能を実装しています。
 
 ## Features
+
 ### 認証機能
+
 - ユーザー登録
 - ログイン
 - ログアウト
 
 ### Todo管理機能
+
 - Todo一覧
 - Todo詳細
 - Todo登録
@@ -22,140 +26,180 @@ Dockerで開発環境を構築し、認証・Todo管理・検索・ゴミ箱・�
 - ページネーション
 
 ### ゴミ箱機能
+
 - Todo削除一覧
 - Todo復元
 - Todo個別削除（物理削除）
 - ゴミ箱を空にする（物理削除）
 
 ### 検索機能
+
 - キーワード検索
 - ステータス検索
 - 期限検索
 
 ### アカウント管理機能
+
 - プロフィール編集
 - パスワード変更
 - アカウント削除（論理削除）
 
 ## Transition
+
 ![Transition](./docs/transition.jpg)
 
 ## Stack
+
 ### Frontend
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![SCSS](https://img.shields.io/badge/SCSS-CC6699?logo=sass&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
 ### Backend
+
 ![PHP](https://img.shields.io/badge/PHP-777BB4?logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?logo=laravel&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 
 ### Infrastructure
+
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-2496ED?logo=docker&logoColor=white)
 ![Apache](https://img.shields.io/badge/Apache-D22128?logo=apache&logoColor=white)
 
 ### Others
+
 ![Composer](https://img.shields.io/badge/Composer-885630?logo=composer&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
 
 ## Directory
-```bash
+
+```text
 todo/
 ├── .github
 │   └── workflows/
-│       └── ci.yml      # CI設定
+│       └── ci.yml                # CI設定
 ├── docker/
-│   ├── apache/         # Apache設定
-│   ├── php/            # PHP設定
-│   ├── mysql/          # MySQL設定
-│   └── Dockerfile      # Dockerfile設定
+│   ├── apache/                   # Apache設定
+│   ├── php/                      # PHP設定
+│   ├── mysql/                    # MySQL設定
+│   └── Dockerfile                # Dockerfile設定
+├── deploy/
+│   ├── rsync-app-exclude.txt     # Laravel本体の転送除外設定
+│   └── rsync-public-exclude.txt  # 公開ファイルの転送除外設定
 ├── docs/
-│   └── transition.jpg  # 画面遷移図
+│   ├── deployment.md             # 手動デプロイ手順
+│   └── transition.jpg            # 画面遷移図
 ├── src/
-│   ├── app/            # アプリケーションロジック
-│   ├── database/       # マイグレーション・Seeder
-│   ├── public/         # 公開ディレクトリ
-│   ├── resources/      # Blade・SCSS・JavaScript
-│   ├── routes/         # ルーティング
-│   └── tests/          # テストコード
-├── .env.example        # 環境変数サンプル
-├── docker-compose.yml  # Docker Compose設定
+│   ├── app/                      # アプリケーションロジック
+│   ├── database/                 # マイグレーション・Seeder
+│   ├── public/                   # 公開ディレクトリ
+│   ├── resources/                # Blade・SCSS・JavaScript
+│   ├── routes/                   # ルーティング
+│   └── tests/                    # テストコード
+├── .env.example                  # 環境変数サンプル
+├── docker-compose.yml            # Docker Compose設定
 └── README.md
 ```
+
 ## Setup
+
 1. Docker用環境変数を作成
+
 ```bash
 cp .env.example .env
 ```
 
 2. Laravel用環境変数を作成
+
 ```bash
 cp src/.env.example src/.env
 ```
 
 3. Dockerイメージをビルド
+
 ```bash
 docker compose build app
 ```
 
 4. Composerの依存パッケージをインストール
+
 ```bash
 docker compose run --rm --no-deps app composer install
 ```
 
 5. アプリケーションとデータベースを起動
+
 ```bash
 docker compose up -d app db
 ```
 
 6. Laravelのアプリケーションキーを生成
+
 ```bash
 docker compose exec app php artisan key:generate
 ```
 
 7. マイグレーションを実行
+
 ```bash
 docker compose exec app php artisan migrate
 ```
 
 8. フロントエンドの依存パッケージをインストール
+
 ```bash
 docker compose run --rm node npm ci
 ```
 
 9. Viteを起動
+
 ```bash
 docker compose up -d node
 ```
 
-10. ブラウザで `http://localhost:8080/` にアクセス  
-（開発を終了する際は `docker compose down` でコンテナを停止できます。）
+10. ブラウザで`http://localhost:8080/`にアクセス
+
+開発を終了する際は、`docker compose down`でコンテナを停止できます。
 
 ## Test
+
 1. Laravelのテストを実行
+
 ```bash
 docker compose exec app php artisan test
 ```
 
 2. PHPのコードスタイルテストを実行
+
 ```bash
 docker compose exec app ./vendor/bin/pint --test
 ```
 
 3. SCSS・JavaScriptの本番向けビルドを実行
+
 ```bash
 docker compose run --rm node npm run build
 ```
 
 ## CI
-GitHub Actionsで `main` 向けのプルリクエストと `main` へのpush時に、Laravelのテスト・Pint・Viteビルドを自動実行します。  
-`main` はRulesetで保護し、プルリクエストと必須チェックの成功をマージ条件にしています。
+
+GitHub Actionsで`main`向けのプルリクエストと`main`へのpush時に、Laravelのテスト・Pint・Viteビルドを自動実行します。
+
+`main`はRulesetで保護し、プルリクエストと必須チェックの成功をマージ条件にしています。
+
+## Deployment
+
+本アプリはConoHa WINGのサブディレクトリ環境へ手動デプロイしています。
+
+詳細は[デプロイ手順](./docs/deployment.md)を参照してください。
 
 ## Database
+
 ### users
+
 | Column | Type | Null | Key | Default | Description |
 |---|---|---|---|---|---|
 | id | BIGINT | NO | PK | AUTO_INCREMENT | ユーザーID |
@@ -169,20 +213,22 @@ GitHub Actionsで `main` 向けのプルリクエストと `main` へのpush時�
 | deleted_at | TIMESTAMP | YES | - | NULL | 削除日時 |
 
 ### todos
+
 | Column | Type | Null | Key | Default | Description |
-|---|---|---|---|---|-------------|
-| id | BIGINT | NO | PK | AUTO_INCREMENT | Todo ID     |
-| user_id | BIGINT | NO | FK | - | ユーザーID      |
-| title | VARCHAR(255) | NO | - | - | タイトル        |
-| description | TEXT | YES | - | NULL | 説明          |
-| is_completed | BOOLEAN | NO | - | false | 完了フラグ       |
-| due_date | DATE | YES | - | NULL | 期限日         |
-| sort_order | INT | NO | - | 0 | 表示順         |
-| created_at | TIMESTAMP | YES | - | NULL | 登録日時        |
-| updated_at | TIMESTAMP | YES | - | NULL | 更新日時        |
-| deleted_at | TIMESTAMP | YES | - | NULL | 削除日時        |
+|---|---|---|---|---|---|
+| id | BIGINT | NO | PK | AUTO_INCREMENT | Todo ID |
+| user_id | BIGINT | NO | FK | - | ユーザーID |
+| title | VARCHAR(255) | NO | - | - | タイトル |
+| description | TEXT | YES | - | NULL | 説明 |
+| is_completed | BOOLEAN | NO | - | false | 完了フラグ |
+| due_date | DATE | YES | - | NULL | 期限日 |
+| sort_order | INT | NO | - | 0 | 表示順 |
+| created_at | TIMESTAMP | YES | - | NULL | 登録日時 |
+| updated_at | TIMESTAMP | YES | - | NULL | 更新日時 |
+| deleted_at | TIMESTAMP | YES | - | NULL | 削除日時 |
 
 ## ER
+
 ```mermaid
 erDiagram
 
@@ -215,4 +261,5 @@ erDiagram
 ```
 
 ## License
+
 MIT
