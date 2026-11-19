@@ -1,0 +1,3 @@
+index.php
+hot
+fonts-manifest.dev.json
